@@ -1,0 +1,9 @@
+{
+  "name": "migrate-main-site-root",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "postinstall": "cd \"migrate-app/migrate properly main home page\" && npm install",
+    "build": "cd \"migrate-app/migrate properly main home page\" && npm run build && cd ../.. && mkdir -p dist && cp -r \"migrate-app/migrate properly main home page/dist/\"* ./dist/"
+  }
+}
