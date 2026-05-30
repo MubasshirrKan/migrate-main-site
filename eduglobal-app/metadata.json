@@ -1,0 +1,8 @@
+{
+  "name": "EduGlobal AI Study Abroad",
+  "description": "An awwwards-winning website hero section for an AI-powered study abroad agency, featuring a parallax cutout effect.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

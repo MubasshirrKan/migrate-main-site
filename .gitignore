@@ -1,0 +1,11 @@
+node_modules/
+.DS_Store
+*.zip
+.npm-cache/
+dist/
+.claude/
+.env
+.env.local
+.env.production
+.env.development
+.env.staging
