@@ -1,8 +1,13 @@
 import { motion } from "motion/react";
-import { ArrowRight, Twitter, Linkedin, Instagram, Github } from "lucide-react";
+import { ArrowRight, Linkedin, Instagram } from "lucide-react";
 
 export default function FooterSection() {
   const currentYear = new Date().getFullYear();
+
+  const navigateTo = (path: string) => {
+    window.history.pushState({}, "", path);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  };
 
   return (
     <footer className="relative bg-[#020202] pt-32 pb-12 overflow-hidden border-t border-white/5">
@@ -40,7 +45,7 @@ export default function FooterSection() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="flex gap-4"
             >
-              {[Twitter, Linkedin, Instagram, Github].map((Icon, i) => (
+              {[Linkedin, Instagram].map((Icon, i) => (
                 <a key={i} href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 hover:border-white/30 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-300 transform hover:-translate-y-1">
                   <Icon className="w-4 h-4" />
                 </a>
@@ -49,28 +54,35 @@ export default function FooterSection() {
           </div>
 
           <div>
-            <h4 className="text-white font-medium mb-6 uppercase tracking-widest text-xs">Platform</h4>
+            <h4 className="text-white font-medium mb-6 uppercase tracking-widest text-xs">Company</h4>
             <ul className="flex flex-col gap-4">
-              {['How it Works', 'AI File Checking', 'Pricing', 'Success Stories'].map((item, i) => (
-                <li key={item}>
-                  <a href="#" className="text-white/40 hover:text-[#60A5FA] transition-colors font-light relative group flex items-center gap-2">
-                    <span className="w-0 h-[1px] bg-[#60A5FA] group-hover:w-3 transition-all duration-300" />
-                    <span>{item}</span>
-                  </a>
+              {[
+                { label: 'About Us', path: '/about' },
+                { label: 'Destinations', path: '/destinations' },
+                { label: 'Careers', path: '/careers' },
+              ].map((item) => (
+                <li key={item.label}>
+                  <button onClick={() => navigateTo(item.path)} className="text-white/40 hover:text-[#34D399] transition-colors font-light relative group flex items-center gap-2 cursor-pointer">
+                    <span className="w-0 h-[1px] bg-[#34D399] group-hover:w-3 transition-all duration-300" />
+                    <span>{item.label}</span>
+                  </button>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white font-medium mb-6 uppercase tracking-widest text-xs">Company</h4>
+            <h4 className="text-white font-medium mb-6 uppercase tracking-widest text-xs">Legal</h4>
             <ul className="flex flex-col gap-4">
-              {['About Us', 'Careers', 'Privacy Policy', 'Terms of Service'].map((item, i) => (
-                <li key={item}>
-                  <a href="#" className="text-white/40 hover:text-[#34D399] transition-colors font-light relative group flex items-center gap-2">
+              {[
+                { label: 'Privacy Policy', path: '/privacy' },
+                { label: 'Terms of Service', path: '/terms' },
+              ].map((item) => (
+                <li key={item.label}>
+                  <button onClick={() => navigateTo(item.path)} className="text-white/40 hover:text-[#34D399] transition-colors font-light relative group flex items-center gap-2 cursor-pointer">
                     <span className="w-0 h-[1px] bg-[#34D399] group-hover:w-3 transition-all duration-300" />
-                    <span>{item}</span>
-                  </a>
+                    <span>{item.label}</span>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -177,8 +189,8 @@ export default function FooterSection() {
               &copy; {currentYear} MigrateProperly. All rights reserved.
             </p>
             <div className="flex items-center gap-6 mt-4 md:mt-0">
-              <a href="#" className="text-white/40 hover:text-white transition-colors text-sm font-light">Privacy Policy</a>
-              <a href="#" className="text-white/40 hover:text-white transition-colors text-sm font-light">Terms of Service</a>
+              <button onClick={() => navigateTo("/privacy")} className="text-white/40 hover:text-white transition-colors text-sm font-light cursor-pointer">Privacy Policy</button>
+              <button onClick={() => navigateTo("/terms")} className="text-white/40 hover:text-white transition-colors text-sm font-light cursor-pointer">Terms of Service</button>
             </div>
           </div>
         </div>

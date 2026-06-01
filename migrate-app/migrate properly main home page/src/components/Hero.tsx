@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import { useRef, useState, useEffect } from "react";
 import { Globe, FileCheck } from "lucide-react";
 
@@ -31,6 +31,24 @@ export default function Hero() {
   const [hoveredBubble, setHoveredBubble] = useState<number | null>(null);
   const [activeBubble, setActiveBubble] = useState<1 | 2>(1);
   const [typedCount, setTypedCount] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // SPA navigation helper (same pattern used elsewhere in the app)
+  const navigateTo = (path: string) => {
+    window.history.pushState({}, "", path);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  };
+
+  const openStories = () =>
+    window.dispatchEvent(new CustomEvent("mp:open-about", { detail: { scrollTo: "success-stories" } }));
+  const openQuiz = () => navigateTo("/quiz");
+
+  // Shared nav items for desktop + mobile menus
+  const navItems = [
+    { label: "About Us", action: () => navigateTo("/about") },
+    { label: "Destinations", action: () => navigateTo("/destinations") },
+    { label: "Success Stories", action: openStories },
+  ];
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -120,11 +138,12 @@ export default function Hero() {
             className="w-full h-full object-cover object-center opacity-80"
           />
         </motion.div>
-        <div className="absolute inset-0 bg-black/30" />
+        {/* Darker on mobile so the glassy thought-bubbles + headline read clearly */}
+        <div className="absolute inset-0 bg-black/55 md:bg-black/30" />
       </motion.div>
 
-      {/* 2. LAYER 1: THOUGHT BUBBLE 1 (BEHIND CUTOUT) */}
-      <motion.div style={{ y: sharedY }} className="absolute inset-0 z-10 pointer-events-none">
+      {/* 2. LAYER 1: THOUGHT BUBBLE 1 — behind cutout on desktop (depth), in front on mobile (so it isn't occluded by the figure) */}
+      <motion.div style={{ y: sharedY }} className="absolute inset-0 z-[26] md:z-10 pointer-events-none">
         <motion.div
           initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -143,7 +162,7 @@ export default function Hero() {
               className="relative"
             >
               <div className="absolute inset-0 bg-[#3B82F6]/30 blur-[40px] rounded-full pointer-events-none" />
-              <div className="relative z-10 flex items-center gap-4 md:gap-5 bg-white/10 backdrop-blur-2xl border border-white/20 p-4 pr-6 md:p-5 md:pr-8 rounded-[2rem] shadow-[0_8px_32px_rgba(255,255,255,0.05)] overflow-hidden">
+              <div className="relative z-10 flex items-center gap-4 md:gap-5 bg-black/55 md:bg-white/10 backdrop-blur-2xl border border-white/20 p-4 pr-6 md:p-5 md:pr-8 rounded-[2rem] shadow-[0_8px_32px_rgba(255,255,255,0.05)] overflow-hidden">
                 <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
                 <div className="relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 border border-white/20 shrink-0 shadow-inner">
                   <motion.div
@@ -205,7 +224,7 @@ export default function Hero() {
               className="relative"
             >
               <div className="absolute inset-0 bg-[#3B82F6]/30 blur-[40px] rounded-full pointer-events-none" />
-              <div className="relative z-10 flex items-center gap-4 md:gap-5 bg-white/10 backdrop-blur-2xl border border-white/20 p-4 pr-6 md:p-5 md:pr-8 rounded-[2rem] shadow-[0_8px_32px_rgba(255,255,255,0.05)] overflow-hidden">
+              <div className="relative z-10 flex items-center gap-4 md:gap-5 bg-black/55 md:bg-white/10 backdrop-blur-2xl border border-white/20 p-4 pr-6 md:p-5 md:pr-8 rounded-[2rem] shadow-[0_8px_32px_rgba(255,255,255,0.05)] overflow-hidden">
                 <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
                 <div className="relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 border border-white/20 shrink-0 shadow-inner">
                   <motion.div
@@ -248,21 +267,78 @@ export default function Hero() {
             />
             <span>Migrate<span className="font-light">Properly</span></span>
           </div>
+          {/* Desktop nav */}
           <nav className="hidden md:flex gap-10">
-            {["AI Matcher", "Doc Verify", "Destinations", "Process"].map(item => (
-              <a
-                key={item}
-                href="#"
-                className="text-white/80 hover:text-white font-sans text-xs uppercase tracking-[0.15em] transition-colors"
+            {navItems.map(item => (
+              <button
+                key={item.label}
+                onClick={item.action}
+                className="text-white/80 hover:text-white font-sans text-xs uppercase tracking-[0.15em] transition-colors cursor-pointer"
               >
-                {item}
-              </a>
+                {item.label}
+              </button>
             ))}
           </nav>
-          <button className="hidden sm:block px-6 py-3 border border-white/20 rounded-full text-white font-sans text-xs tracking-widest uppercase backdrop-blur-md hover:bg-white hover:text-black transition-all">
-            Get Started
+
+          {/* Desktop Play Quiz */}
+          <button
+            onClick={openQuiz}
+            className="hidden md:block px-6 py-3 rounded-full text-white font-sans font-semibold text-xs tracking-widest uppercase bg-gradient-to-b from-[#4F8EF7] to-[#1D4ED8] hover:from-[#5b97ff] hover:to-[#1E40AF] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] transition-all"
+          >
+            Play Quiz
+          </button>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label="Menu"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-full border border-white/15 bg-black/30 backdrop-blur-md text-white"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              {menuOpen ? (
+                <>
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </>
+              ) : (
+                <>
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </>
+              )}
+            </svg>
           </button>
         </motion.header>
+
+        {/* Mobile menu dropdown */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="md:hidden absolute top-20 left-6 right-6 z-50 rounded-2xl border border-white/10 bg-zinc-950/95 backdrop-blur-xl p-4 flex flex-col gap-1 pointer-events-auto shadow-2xl"
+            >
+              {navItems.map(item => (
+                <button
+                  key={item.label}
+                  onClick={() => { setMenuOpen(false); item.action(); }}
+                  className="text-left text-white/80 hover:text-white hover:bg-white/5 font-sans text-sm uppercase tracking-[0.12em] px-4 py-3 rounded-xl transition-colors"
+                >
+                  {item.label}
+                </button>
+              ))}
+              <button
+                onClick={() => { setMenuOpen(false); openQuiz(); }}
+                className="mt-2 px-4 py-3 rounded-xl text-white font-sans font-semibold text-sm tracking-widest uppercase bg-gradient-to-b from-[#4F8EF7] to-[#1D4ED8] hover:from-[#5b97ff] hover:to-[#1E40AF] transition-all"
+              >
+                Play Quiz
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Bottom: Hero Headline + Scroll Indicator */}
         <div className="flex flex-col md:flex-row justify-between items-center md:items-end w-full gap-8 pb-4 pointer-events-auto">

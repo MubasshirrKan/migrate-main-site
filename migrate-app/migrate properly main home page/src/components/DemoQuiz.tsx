@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect, useRef } from "react";
-import { questions, renderQuestionHighlight, AnalyzingUX, resolveQuestion, type Language } from "./QuizFlow";
+import { questions, renderQuestionHighlight, AnalyzingUX, MatchPercentage, AlternativeChip, resolveQuestion, revealContent, alternativeDestinations, type Language } from "./QuizFlow";
 
 export default function DemoQuiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -13,6 +13,7 @@ export default function DemoQuiz() {
   const [isFinished, setIsFinished] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showDestination, setShowDestination] = useState(false);
+  const [revealStep, setRevealStep] = useState<"counting" | "completed">("counting");
   const [destinationCountry, setDestinationCountry] = useState("Canada");
 
   // Video scrubber logic matching QuizFlow
@@ -92,6 +93,7 @@ export default function DemoQuiz() {
     setIsFinished(false);
     setIsAnalyzing(false);
     setShowDestination(false);
+    setRevealStep("counting");
     setCurrentQuestion(0);
     setSelectedOptions({});
   };
@@ -290,27 +292,27 @@ export default function DemoQuiz() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleOptionClick(option)}
-                        className={`group relative border p-6 md:p-8 rounded-2xl flex items-start lg:items-center gap-6 text-left transition-all duration-300 backdrop-blur-sm overflow-hidden cursor-pointer ${
+                        className={`group relative border p-4 py-5 md:p-8 rounded-xl lg:rounded-2xl flex items-center lg:items-center gap-4 md:gap-6 text-left transition-all duration-300 backdrop-blur-xl lg:backdrop-blur-md shadow-xl lg:shadow-none overflow-hidden cursor-pointer ${
                           isSelected
                             ? "border-blue-500/80 bg-blue-500/10 shadow-[0_0_30px_rgba(59,130,246,0.2)]"
-                            : "border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+                            : "border-white/10 bg-[#0a0f1c]/90 lg:bg-black/40 hover:bg-black/60 hover:border-white/30 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)]"
                         }`}
                       >
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
 
                         <div
-                          className={`flex-shrink-0 w-10 h-10 mt-1 lg:mt-0 rounded-full border flex items-center justify-center transition-all duration-300 font-medium text-sm md:text-base relative z-10 ${
+                          className={`flex-shrink-0 w-10 h-10 lg:w-12 lg:h-12 mt-0 rounded-full border flex items-center justify-center transition-all duration-300 font-medium text-sm md:text-base relative z-10 ${
                             isSelected
                               ? "border-blue-400 bg-blue-500 text-white shadow-[0_0_15px_rgba(59,130,246,0.6)]"
-                              : "border-white/20 group-hover:border-blue-400 group-hover:bg-blue-500/20 text-white/50 group-hover:text-blue-300"
+                              : "border-white/20 bg-black/60 lg:bg-transparent group-hover:border-blue-400 group-hover:bg-blue-500/20 text-white/50 group-hover:text-blue-300"
                           }`}
                         >
                           {letters[idx]}
                         </div>
 
                         <span
-                          className={`text-lg md:text-xl font-light transition-colors flex-1 leading-snug relative z-10 ${
-                            isSelected ? "text-white font-normal" : "text-white/80 group-hover:text-white"
+                          className={`text-sm md:text-xl font-light transition-all duration-300 flex-1 leading-snug relative z-10 ${
+                            isSelected ? "text-white font-normal" : "text-white/80 group-hover:text-white group-hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]"
                           }`}
                         >
                           {option}
@@ -323,7 +325,7 @@ export default function DemoQuiz() {
             </motion.div>
           ) : (
             isAnalyzing ? (
-              <AnalyzingUX onComplete={() => {
+              <AnalyzingUX language={language} onComplete={() => {
                 setIsAnalyzing(false);
                 setShowDestination(true);
               }} />
@@ -350,162 +352,310 @@ export default function DemoQuiz() {
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[50vh] rounded-full bg-blue-600/10 blur-[150px] mix-blend-screen animate-pulse" style={{ animationDuration: '4s' }} />
                 </div>
 
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{ duration: 1.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex flex-col items-center justify-center z-10 w-full max-w-4xl mt-10 md:mt-20 shrink-0 pb-20"
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 1 }}
-                    className="flex flex-col items-center gap-4 mb-6"
-                  >
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 backdrop-blur-md shadow-[0_0_20px_rgba(59,130,246,0.15)]">
-                      <svg className="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span className="text-blue-300 font-bold tracking-[0.1em] text-xs md:text-sm uppercase drop-shadow-md">89% Match Found</span>
-                    </div>
-                  </motion.div>
-
-                  <span className="text-white/50 uppercase tracking-[0.3em] text-xs md:text-sm font-light mb-2">Your Ideal Destination is</span>
-                  <div className="flex justify-center mt-2 mb-12 perspective-[1000px]">
-                    <motion.h2 className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter flex">
-                      {destinationCountry.split('').map((char, index) => (
-                        <motion.span
-                          key={index}
-                          initial={{ opacity: 0, y: 80, rotateX: -90, scale: 0.8, filter: 'blur(20px)' }}
-                          animate={{ opacity: 1, y: 0, rotateX: 0, scale: 1, filter: 'blur(0px)' }}
-                          transition={{
-                            duration: 1.2,
-                            delay: 1.2 + (index * 0.08),
-                            type: "spring",
-                            damping: 12,
-                            stiffness: 150
-                          }}
-                          className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-blue-300 drop-shadow-[0_0_25px_rgba(59,130,246,0.5)] inline-block"
-                        >
-                          {char === ' ' ? ' ' : char}
-                        </motion.span>
-                      ))}
-                    </motion.h2>
-                  </div>
-
-                  {/* Custom blurred content section */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.2, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
-                    className="w-full relative"
-                  >
-                    <div className="text-left mb-6 flex items-center justify-between px-2">
-                      <div>
-                        <h3 className="text-xl md:text-2xl font-semibold text-white mb-1">Top University Matches</h3>
-                        <p className="text-white/50 text-sm">Tailored to your budget, academics & goals</p>
-                      </div>
-                      <div className="hidden md:flex items-center gap-2 text-blue-400/80 text-sm font-medium">
-                        <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-4xl mx-auto pt-10 pb-24">
+                  <AnimatePresence mode="wait">
+                    {revealStep === "counting" ? (
+                      <motion.div
+                        key="counting"
+                        className="flex flex-col items-center justify-center min-h-[60vh] w-full"
+                        exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <MatchPercentage
+                          language={language}
+                          onComplete={() => setRevealStep("completed")}
+                        />
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="revealed"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="w-full flex flex-col items-center"
+                      >
+                        <span className="text-white/50 uppercase tracking-[0.3em] text-xs md:text-sm font-light mb-4">
+                          {revealContent[language].destinationLabel}
                         </span>
-                        Live Results
-                      </div>
-                    </div>
-
-                    <div className="relative rounded-[2rem] border border-white/10 bg-[#060B1A]/80 backdrop-blur-xl overflow-hidden flex flex-col shadow-2xl">
-                      {/* 1st Result (Visible) */}
-                      <div className="p-6 md:p-8 flex items-start gap-4 md:gap-6 border-b border-white/5 bg-white/[0.02]">
-                         <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-600/5 flex items-center justify-center border border-blue-500/20 shrink-0">
-                           <span className="text-2xl">🎓</span>
-                         </div>
-                         <div className="flex-1 text-left">
-                           <div className="flex flex-wrap items-center gap-3 mb-2">
-                             <h4 className="text-lg md:text-xl font-medium text-white">Top Tier University</h4>
-                             <span className="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-xs font-semibold">92% Match</span>
-                           </div>
-                           <p className="text-white/60 text-sm mb-4 leading-relaxed">Perfect alignment with your budget and post-study work visa goals in {destinationCountry}.</p>
-                           <div className="flex flex-wrap gap-2">
-                             <span className="px-3 py-1 rounded-full bg-white/5 text-white/70 text-xs font-medium border border-white/5">High PR Success</span>
-                             <span className="px-3 py-1 rounded-full bg-white/5 text-white/70 text-xs font-medium border border-white/5">Strong ROI</span>
-                           </div>
-                         </div>
-                      </div>
-
-                      {/* 2nd Result (Semi-blurred) */}
-                      <div className="p-6 md:p-8 flex items-start gap-4 md:gap-6 border-b border-white/5 bg-white/[0.01] opacity-70 blur-[3px] select-none pointer-events-none">
-                         <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 shrink-0"></div>
-                         <div className="flex-1 text-left">
-                           <div className="flex flex-wrap items-center gap-3 mb-3">
-                             <div className="h-6 w-48 bg-white/20 rounded-md"></div>
-                             <div className="h-5 w-20 bg-white/20 rounded-md"></div>
-                           </div>
-                           <div className="h-4 w-3/4 bg-white/10 rounded-md mb-2"></div>
-                           <div className="h-4 w-1/2 bg-white/10 rounded-md mb-4"></div>
-                         </div>
-                      </div>
-
-                      {/* 3rd Result (Fully blurred) */}
-                      <div className="p-6 md:p-8 flex items-start gap-4 md:gap-6 opacity-30 blur-[6px] select-none pointer-events-none">
-                         <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/5 shrink-0"></div>
-                         <div className="flex-1 text-left">
-                           <div className="h-6 w-56 bg-white/20 rounded-md mb-4"></div>
-                           <div className="h-4 w-2/3 bg-white/10 rounded-md mb-3"></div>
-                           <div className="h-4 w-1/2 bg-white/10 rounded-md"></div>
-                         </div>
-                      </div>
-
-                      {/* Overlay Lock / CTA */}
-                      <div className="absolute bottom-0 left-0 right-0 h-[75%] bg-gradient-to-t from-[#060B1A] via-[#060B1A]/95 to-transparent flex flex-col items-center justify-end pb-12 px-6">
-                        <motion.div
-                          initial={{ scale: 0.8, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          transition={{ duration: 0.8, delay: 2, ease: "backOut" }}
-                          className="w-16 h-16 rounded-full bg-blue-500/10 backdrop-blur-xl border border-blue-500/30 flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(59,130,246,0.3)]"
+                        <div
+                          className="flex flex-col items-center justify-center mb-16"
+                          style={{ perspective: 1000 }}
                         >
-                          <svg className="w-7 h-7 text-blue-400 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                          </svg>
-                        </motion.div>
-                        
-                        <motion.div
-                           initial={{ y: 20, opacity: 0 }}
-                           animate={{ y: 0, opacity: 1 }}
-                           transition={{ duration: 0.8, delay: 2.2 }}
-                           className="text-center"
-                        >
-                          <h4 className="text-2xl md:text-3xl font-bold text-white mb-3">Unlock Your Full Roadmap</h4>
-                          <p className="text-white/60 text-sm md:text-base max-w-md mx-auto mb-8 leading-relaxed">
-                            Get immediate access to your personalized university list, hidden scholarship opportunities, and a step-by-step visa strategy.
-                          </p>
-
-                          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-                            <button 
-                              onClick={handleResetSandbox} 
-                              className="group relative overflow-hidden bg-white/10 border border-white/20 text-white w-full sm:w-auto px-8 py-4 rounded-full font-bold uppercase tracking-[0.1em] text-sm hover:bg-white/25 hover:border-white/30 transition-all shrink-0 cursor-pointer"
-                            >
-                              Restart Demo Sandbox
-                            </button>
-
-                            <button 
-                              onClick={handleNavigateHome} 
-                              className="group relative overflow-hidden bg-blue-600 text-white w-full sm:w-auto px-8 py-4 rounded-full font-bold uppercase tracking-[0.1em] text-sm hover:shadow-[0_0_40px_rgba(37,99,235,0.5)] transition-all shrink-0 cursor-pointer"
-                            >
-                              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                              <span className="relative z-10 flex items-center justify-center gap-3">
-                                Exit Sandbox
-                                <svg className="w-5 h-5 ml-1 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
+                          <motion.h2 className="text-5xl sm:text-6xl md:text-[6rem] lg:text-[7.5rem] font-black tracking-tighter flex flex-wrap items-center justify-center gap-x-4 md:gap-x-6 mb-2 pb-2 leading-[1.1] text-center px-4">
+                            {destinationCountry.split(" ").map((word, wordIndex) => (
+                              <span key={wordIndex} className="inline-block whitespace-nowrap">
+                                {word.split("").map((char, index) => (
+                                  <motion.span
+                                    key={`${wordIndex}-${index}`}
+                                    initial={{ opacity: 0, y: 80, scale: 0.8, filter: "blur(20px)" }}
+                                    animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                                    transition={{
+                                      duration: 1.2,
+                                      delay: (wordIndex * 5 + index) * 0.08,
+                                      type: "spring",
+                                      damping: 12,
+                                      stiffness: 150
+                                    }}
+                                    className="text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-500 drop-shadow-[0_0_45px_rgba(59,130,246,0.9)] inline-block"
+                                  >
+                                    {char}
+                                  </motion.span>
+                                ))}
                               </span>
-                            </button>
+                            ))}
+                          </motion.h2>
+
+                          <motion.div
+                            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ delay: 0.8, type: "spring", stiffness: 200 }}
+                            className="flex items-center justify-center gap-2 md:gap-3 bg-emerald-500/20 border-2 border-emerald-500/50 px-6 py-3 md:px-8 md:py-4 rounded-full backdrop-blur-md shadow-[0_0_50px_rgba(52,211,153,0.4)] max-w-[90vw]"
+                          >
+                            <svg className="w-8 h-8 text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-emerald-500 font-black tracking-[0.1em] uppercase text-xl sm:text-2xl md:text-3xl drop-shadow-md text-center">
+                              {revealContent[language].matchFound}
+                            </span>
+                          </motion.div>
+
+                          {/* Other Matches */}
+                          <div className="flex flex-col items-center gap-2 mt-8">
+                            <motion.div
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ delay: 1.3, duration: 0.6 }}
+                              className="text-white/40 text-[10px] md:text-xs uppercase tracking-[0.2em] font-semibold mb-2"
+                            >
+                              {revealContent[language].alternativesLabel}
+                            </motion.div>
+                            <div className="flex flex-wrap justify-center gap-3">
+                              {alternativeDestinations.map((country, idx) => (
+                                <span key={idx}>
+                                  <AlternativeChip
+                                    flag={country.flag}
+                                    name={country.name}
+                                    percent={country.percent}
+                                    index={idx}
+                                  />
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Custom blurred content section */}
+                        <motion.div
+                          initial={{ opacity: 0, y: 30 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 1.2, delay: 1, ease: [0.16, 1, 0.3, 1] }}
+                          className="w-full relative"
+                        >
+                          <div className="text-left mb-6 flex items-center justify-between px-2">
+                            <div>
+                              <h3 className="text-xl md:text-2xl font-semibold text-white mb-1">{revealContent[language].roadmapTitle}</h3>
+                              <p className="text-white/50 text-sm">{revealContent[language].roadmapSubtitle}</p>
+                            </div>
+                            <div className="hidden md:flex items-center gap-2 text-blue-400/80 text-sm font-medium">
+                              <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                              </span>
+                              {revealContent[language].liveResults}
+                            </div>
+                          </div>
+
+                          <div className="relative rounded-[2rem] border border-white/10 bg-[#060B1A]/80 backdrop-blur-xl overflow-hidden flex flex-col shadow-2xl">
+
+                            {/* ── SECTION 1: Why {country} — VISIBLE ── */}
+                            <div className="p-6 md:p-8 flex flex-col gap-4 border-b border-white/5 bg-white/[0.02]">
+                              <div className="flex items-center gap-3 mb-2">
+                                <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center border border-blue-500/30">
+                                  <span className="text-xl">✨</span>
+                                </div>
+                                <h4 className="text-lg md:text-xl font-medium text-white text-left">
+                                  {revealContent[language].whyTitle.replace("{country}", destinationCountry)}
+                                </h4>
+                              </div>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                                {revealContent[language].reasons.map((reason, idx) => (
+                                  <div key={idx} className="flex items-start gap-3 bg-white/[0.03] p-4 rounded-xl border border-white/5">
+                                    <svg className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <div>
+                                      <h5 className="text-white font-medium text-sm">{reason.title}</h5>
+                                      <p className="text-white/60 text-xs mt-1">{reason.desc.replace(/\{country\}/g, destinationCountry)}</p>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* ── SECTION 2: Top University Matches — header visible, content locked ── */}
+                            <div className="border-b border-white/5">
+                              {/* Header — clear, same style as Why section */}
+                              <div className="p-6 md:p-8 pb-4 flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-xl bg-emerald-500/15 flex items-center justify-center border border-emerald-500/25 shrink-0">
+                                  <span className="text-xl">🎓</span>
+                                </div>
+                                <div className="flex items-center gap-3 flex-wrap">
+                                  <h4 className="text-lg md:text-xl font-medium text-white">
+                                    {revealContent[language].topMatchesTitle}
+                                  </h4>
+                                  <span className="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-xs font-semibold">
+                                    {revealContent[language].topMatchesBadge}
+                                  </span>
+                                </div>
+                              </div>
+                              {/* Content — blurred & locked */}
+                              <div className="px-6 md:px-8 pb-6 flex flex-col gap-3 blur-[3px] opacity-60 select-none pointer-events-none">
+                                {[
+                                  { pct: "94%", tag: "Best Match" },
+                                  { pct: "88%", tag: "Strong Fit" },
+                                  { pct: "81%", tag: "Good Fit" },
+                                  { pct: "76%", tag: "Possible" },
+                                ].map((u, i) => (
+                                  <div key={i} className="flex items-center gap-3 bg-white/[0.04] p-3 rounded-xl border border-white/5">
+                                    <div className="w-9 h-9 rounded-lg bg-white/10 shrink-0" />
+                                    <div className="flex-1">
+                                      <div className="h-3.5 w-36 bg-white/25 rounded mb-1.5" />
+                                      <div className="h-2.5 w-24 bg-white/10 rounded" />
+                                    </div>
+                                    <span className="text-emerald-400 font-bold text-sm shrink-0">{u.pct}</span>
+                                    <span className="text-[10px] text-emerald-400/70 font-medium shrink-0 hidden md:block">{u.tag}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* ── SECTION 3: Scholarship Opportunities — header visible, content locked ── */}
+                            <div className="border-b border-white/5">
+                              <div className="p-6 md:p-8 pb-4 flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center border border-amber-500/25 shrink-0">
+                                  <span className="text-xl">💰</span>
+                                </div>
+                                <div className="flex items-center gap-3 flex-wrap">
+                                  <h4 className="text-lg md:text-xl font-medium text-white">
+                                    {revealContent[language].scholarshipsTitle}
+                                  </h4>
+                                  <span className="px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-400 text-xs font-semibold">
+                                    {revealContent[language].scholarshipsBadge}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="px-6 md:px-8 pb-6 flex flex-col gap-3 blur-[4px] opacity-50 select-none pointer-events-none">
+                                {revealContent[language].scholarshipItems.map((item, i) => (
+                                  <div key={i} className="flex items-center gap-3 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                                    <div className="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/20 shrink-0" />
+                                    <div className="flex-1">
+                                      <div className="h-3 w-40 bg-white/20 rounded mb-1.5" />
+                                      <div className="h-2.5 w-28 bg-white/10 rounded" />
+                                    </div>
+                                    <div className="h-5 w-14 bg-amber-400/20 rounded-full" />
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* ── SECTION 4: Visa Route & Timeline — header visible, content locked ── */}
+                            <div className="border-b border-white/5">
+                              <div className="p-6 md:p-8 pb-4 flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-xl bg-blue-500/15 flex items-center justify-center border border-blue-500/25 shrink-0">
+                                  <span className="text-xl">🛂</span>
+                                </div>
+                                <div className="flex items-center gap-3 flex-wrap">
+                                  <h4 className="text-lg md:text-xl font-medium text-white">
+                                    {revealContent[language].visaTitle}
+                                  </h4>
+                                  <span className="px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-400 text-xs font-semibold">
+                                    {revealContent[language].visaBadge}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="px-6 md:px-8 pb-6 blur-[4px] opacity-45 select-none pointer-events-none">
+                                <div className="flex flex-col gap-2.5">
+                                  {revealContent[language].visaSteps.map((_, i) => (
+                                    <div key={i} className="flex items-center gap-3">
+                                      <div className="w-6 h-6 rounded-full bg-blue-500/30 border border-blue-500/30 flex items-center justify-center shrink-0">
+                                        <span className="text-blue-300 text-xs font-bold">{i + 1}</span>
+                                      </div>
+                                      <div className="flex-1 h-3 bg-white/15 rounded" style={{ width: `${80 - i * 10}%` }} />
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* ── SECTION 5: Application Action Plan — header visible, content locked ── */}
+                            <div>
+                              <div className="p-6 md:p-8 pb-4 flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-xl bg-purple-500/15 flex items-center justify-center border border-purple-500/25 shrink-0">
+                                  <span className="text-xl">📋</span>
+                                </div>
+                                <div className="flex items-center gap-3 flex-wrap">
+                                  <h4 className="text-lg md:text-xl font-medium text-white">
+                                    {revealContent[language].applicationTitle}
+                                  </h4>
+                                  <span className="px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 text-xs font-semibold">
+                                    {revealContent[language].applicationBadge}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="px-6 md:px-8 pb-6 blur-[5px] opacity-35 select-none pointer-events-none">
+                                <div className="flex flex-col gap-2.5">
+                                  {revealContent[language].applicationItems.map((_, i) => (
+                                    <div key={i} className="flex items-start gap-3 bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                                      <div className="w-4 h-4 rounded border border-purple-400/40 mt-0.5 shrink-0" />
+                                      <div className="flex-1 h-3 bg-white/15 rounded" style={{ width: `${70 - i * 8}%` }} />
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* ── Overlay gradient + Lock CTA ── */}
+                            <div className="absolute bottom-0 left-0 right-0 h-[72%] bg-gradient-to-t from-[#060B1A] via-[#060B1A]/85 to-transparent flex flex-col items-center justify-end pb-10 px-6">
+                              <motion.div
+                                initial={{ scale: 0.8, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                transition={{ duration: 0.8, delay: 2, ease: "backOut" }}
+                                className="w-16 h-16 rounded-full bg-blue-500/10 backdrop-blur-xl border border-blue-500/30 flex items-center justify-center mb-5 shadow-[0_0_40px_rgba(59,130,246,0.3)]"
+                              >
+                                <svg className="w-7 h-7 text-blue-400 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                              </motion.div>
+                              <motion.div
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ duration: 0.8, delay: 2.2 }}
+                                className="text-center"
+                              >
+                                <h4 className="text-2xl md:text-3xl font-bold text-white mb-3">{revealContent[language].unlockTitle}</h4>
+                                <p className="text-white/60 text-sm md:text-base max-w-md mx-auto mb-8 leading-relaxed">{revealContent[language].unlockDesc}</p>
+                                                                <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                                  <button onClick={handleResetSandbox} className="group relative overflow-hidden bg-white/10 border border-white/20 text-white w-full sm:w-auto px-8 py-4 rounded-full font-bold uppercase tracking-[0.1em] text-sm hover:bg-white/25 hover:border-white/30 transition-all shrink-0 cursor-pointer">
+                                    Restart Demo Sandbox
+                                  </button>
+                                  <button onClick={handleNavigateHome} className="group relative overflow-hidden bg-blue-600 text-white w-full sm:w-auto px-8 py-4 rounded-full font-bold uppercase tracking-[0.1em] text-sm hover:shadow-[0_0_40px_rgba(37,99,235,0.5)] transition-all shrink-0 cursor-pointer">
+                                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                                    <span className="relative z-10 flex items-center justify-center gap-3">
+                                      Exit Sandbox
+                                      <svg className="w-5 h-5 ml-1 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                      </svg>
+                                    </span>
+                                  </button>
+                                </div>
+                              </motion.div>
+                            </div>
                           </div>
                         </motion.div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </motion.div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </motion.div>
             ) : (
               <motion.div key="waiting" className="w-full h-full pointer-events-none" exit={{ opacity: 0 }} />

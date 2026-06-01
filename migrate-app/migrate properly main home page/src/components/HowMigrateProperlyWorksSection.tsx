@@ -33,7 +33,7 @@ const steps = [
   {
     num: "04",
     title: "Prepare & Move",
-    description: "Generate AI SOPs instantly or get an Optional Human Expert Review for ৳10,000 to finalize your journey.",
+    description: "From your documents to your departure, we prepare every detail with you — so you can move with total confidence.",
     icon: <PlaneTakeoff className="w-7 h-7 text-white/80 group-hover:text-indigo-300 transition-colors" />,
     gradient: "from-indigo-500/20 via-indigo-900/5 to-transparent",
     borderGlow: "hover:border-indigo-500/50 hover:shadow-[0_0_40px_rgba(99,102,241,0.2)]",

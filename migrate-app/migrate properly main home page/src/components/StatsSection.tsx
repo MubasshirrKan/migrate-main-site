@@ -91,14 +91,18 @@ export default function StatsSection() {
 
         <h2 className="text-[1.4rem] sm:text-[2rem] md:text-[3.5rem] lg:text-[4.6rem] xl:text-[5.2rem] font-sans font-medium tracking-tight text-white leading-[1.1] flex flex-col items-start gap-2 md:gap-4 w-full">
           <WaveLine lineIndex={0} scrollYProgress={scrollYProgress} variants={itemVariants} className="flex items-center gap-x-[0.3em] whitespace-nowrap">
-            Over <span className="text-[#60A5FA]"><Counter to={1000} isInView={isInView} /> students</span> have already
+            <span className="text-[#60A5FA]"><Counter to={1000} isInView={isInView} />+ students</span> have already
           </WaveLine>
-          
+
           <WaveLine lineIndex={1} scrollYProgress={scrollYProgress} variants={itemVariants} className="flex items-center gap-x-[0.3em] whitespace-nowrap">
-            found their <span className="text-[#60A5FA]">perfect study</span> destination
+            discovered their <span className="text-[#60A5FA]">ideal</span>
           </WaveLine>
-          
-          <WaveLine lineIndex={2} scrollYProgress={scrollYProgress} variants={itemVariants} className="flex items-center gap-4 md:gap-6 mt-2 md:mt-4 whitespace-nowrap">
+
+          <WaveLine lineIndex={2} scrollYProgress={scrollYProgress} variants={itemVariants} className="flex items-center gap-x-[0.3em] whitespace-nowrap">
+            <span className="text-[#60A5FA]">study abroad</span> destination
+          </WaveLine>
+
+          <WaveLine lineIndex={3} scrollYProgress={scrollYProgress} variants={itemVariants} className="flex items-center gap-4 md:gap-6 mt-2 md:mt-4 whitespace-nowrap">
             <span className="text-white/40">— in just one minute.</span>
             
             <div className="relative w-14 h-14 md:w-16 md:h-16 flex items-center justify-center group pointer-events-auto cursor-default shrink-0">

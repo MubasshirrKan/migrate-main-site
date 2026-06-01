@@ -48,7 +48,7 @@ export default function HowItWorksSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen bg-black flex flex-col items-center justify-start overflow-hidden pt-20 md:pt-32">
+    <section className="relative min-h-screen bg-black flex flex-col items-center justify-start overflow-hidden pt-10 md:pt-16">
       {/* Fullscreen Video Background with smooth dual-video loop crossfade */}
       <video 
         ref={video1Ref}
@@ -113,7 +113,7 @@ export default function HowItWorksSection() {
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-lg font-sans text-sm md:text-base text-white/50 leading-relaxed tracking-wide text-center"
           >
-            AI-matched destinations, expert guidance, and a clear path — so you land exactly where you're meant to be.
+            AI assesses and guides you at every step — and MigrateProperly handles everything else, from your very first question to your visa approval and beyond. Chat now to get started.
           </motion.p>
 
           {/* Decorative glowing line below */}

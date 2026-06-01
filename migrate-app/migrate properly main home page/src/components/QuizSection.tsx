@@ -13,7 +13,20 @@ export default function QuizSection({ isQuizOpen, setIsQuizOpen }: QuizSectionPr
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const [isAboutOpen, setIsAboutOpen] = useState(false);
-  
+  const [aboutScrollTo, setAboutScrollTo] = useState<string | undefined>(undefined);
+
+  // Let the navbar "Success Stories" link open the About overlay and jump to the
+  // testimonials. Event detail may carry { scrollTo: "success-stories" }.
+  useEffect(() => {
+    const open = (e: Event) => {
+      const target = (e as CustomEvent).detail?.scrollTo as string | undefined;
+      setAboutScrollTo(target);
+      setIsAboutOpen(true);
+    };
+    window.addEventListener("mp:open-about", open);
+    return () => window.removeEventListener("mp:open-about", open);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
@@ -111,7 +124,7 @@ export default function QuizSection({ isQuizOpen, setIsQuizOpen }: QuizSectionPr
               }}
               className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-sans font-medium tracking-tight text-white leading-[1.05] drop-shadow-2xl"
             >
-              Let's find out your <em className="font-serif italic font-light text-[#60A5FA]">destination.</em>
+              Let's discover your <em className="font-serif italic font-light text-[#60A5FA]">perfect destination.</em>
             </motion.h2>
 
             <motion.div 
@@ -157,7 +170,7 @@ export default function QuizSection({ isQuizOpen, setIsQuizOpen }: QuizSectionPr
             className="flex flex-col gap-6 items-center px-4"
           >
             <div className="flex flex-col items-center gap-2 mb-4">
-              <span className="text-[#1D4ED8] font-mono text-xs md:text-sm tracking-widest font-semibold uppercase">Your Journey Begins</span>
+              <span className="text-[#1D4ED8] font-mono text-xs md:text-sm tracking-widest font-semibold uppercase">Your Journey Begins Here</span>
               <h3 className="text-2xl md:text-4xl lg:text-5xl font-sans font-bold tracking-tight text-slate-800 text-center max-w-2xl px-4 leading-tight">
                 Let's find your dream destination
               </h3>
@@ -168,7 +181,7 @@ export default function QuizSection({ isQuizOpen, setIsQuizOpen }: QuizSectionPr
                 initial={{ scale: 1 }}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => setIsQuizOpen(true)}
+              onClick={() => { window.history.pushState({}, "", "/quiz"); window.dispatchEvent(new PopStateEvent("popstate")); }}
               className="relative group flex items-center justify-center rounded-[3rem] p-[6px] bg-white/50 shadow-[inset_0_-4px_10px_rgba(0,0,0,0.05),inset_0_4px_10px_rgba(255,255,255,1),0_10px_40px_rgba(37,99,235,0.2)] transition-all duration-300 backdrop-blur-xl border border-white/40"
             >
               <div className="absolute inset-0 rounded-[3rem] bg-[#eef2ff]/50 blur-[4px] pointer-events-none"></div>
@@ -199,10 +212,10 @@ export default function QuizSection({ isQuizOpen, setIsQuizOpen }: QuizSectionPr
               </div>
             </motion.button>
 
-            <motion.button 
+            <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => setIsAboutOpen(true)}
+              onClick={() => { setAboutScrollTo(undefined); setIsAboutOpen(true); }}
               className="group flex flex-col items-center justify-center p-2"
             >
               <span className="text-black/60 group-hover:text-black transition-colors font-medium text-sm md:text-[15px] relative">
@@ -220,7 +233,7 @@ export default function QuizSection({ isQuizOpen, setIsQuizOpen }: QuizSectionPr
           <QuizFlow onClose={() => setIsQuizOpen(false)} />
         )}
         {isAboutOpen && (
-          <AboutSection onClose={() => setIsAboutOpen(false)} />
+          <AboutSection onClose={() => setIsAboutOpen(false)} scrollTo={aboutScrollTo} />
         )}
       </AnimatePresence>
     </section>

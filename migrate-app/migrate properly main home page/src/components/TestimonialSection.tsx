@@ -136,7 +136,7 @@ export default function TestimonialSection() {
             </span>
           </h2>
           <p className="text-white/40 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
-            See how our intelligent platform has transformed the complex journey of international education into a streamlined, confident experience.
+            See how our company has turned the complex journey of studying abroad into a streamlined, confident experience.
           </p>
         </motion.div>
 

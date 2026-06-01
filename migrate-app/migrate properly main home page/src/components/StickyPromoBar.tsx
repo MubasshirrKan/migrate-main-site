@@ -37,12 +37,15 @@ export default function StickyPromoBar() {
 
             {/* Center: Promo text */}
             <p className="font-sans text-xs sm:text-sm text-white/70 tracking-wide">
-              Play game and grab{" "}
-              <span className="text-white font-semibold">50% discount!</span>
+              Take the Free Quiz &amp;{" "}
+              <span className="text-white font-semibold">Unlock 50% Off</span>
             </p>
 
             {/* Right: CTA */}
-            <button className="px-5 py-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-md font-sans text-[11px] font-bold tracking-[0.15em] uppercase hover:bg-white/10 transition-colors">
+            <button
+              onClick={() => { window.history.pushState({}, "", "/quiz"); window.dispatchEvent(new PopStateEvent("popstate")); }}
+              className="px-5 py-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-md font-sans text-[11px] font-bold tracking-[0.15em] uppercase hover:bg-white/10 transition-colors cursor-pointer"
+            >
               <span className="overseas-glow" style={{ fontStyle: "normal" }}>
                 Play Now
               </span>

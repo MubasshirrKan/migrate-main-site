@@ -1,17 +1,28 @@
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
-import AIFileCheckingSection from "./AIFileCheckingSection";
 import HowItWorksSection from "./HowItWorksSection";
 import HowMigrateProperlyWorksSection from "./HowMigrateProperlyWorksSection";
 import TestimonialSection from "./TestimonialSection";
 import ContactSection from "./ContactSection";
+import CountriesMarquee from "./CountriesMarquee";
 import FooterSection from "./FooterSection";
 
-export default function AboutSection({ onClose }: { onClose: () => void }) {
+export default function AboutSection({ onClose, scrollTo }: { onClose: () => void; scrollTo?: string }) {
   const isClosing = useRef(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLDivElement>(null);
+
+  // When opened via a specific nav target (e.g. "Success Stories"), jump straight
+  // to that section instead of starting at the cinematic intro.
+  useEffect(() => {
+    if (!scrollTo) return;
+    const t = setTimeout(() => {
+      const el = document.getElementById(scrollTo);
+      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 400);
+    return () => clearTimeout(t);
+  }, [scrollTo]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -63,23 +74,18 @@ export default function AboutSection({ onClose }: { onClose: () => void }) {
     restDelta: 0.001
   });
 
-  // Text 1: We Work Smarter with AI Technology.
-  const t1Opacity = useTransform(smoothProgress, [0, 0.15, 0.25], [1, 1, 0]);
-  const t1Y = useTransform(smoothProgress, [0, 0.15, 0.25], [0, 0, -80]);
-  const t1Filter = useTransform(smoothProgress, [0, 0.15, 0.25], ["blur(0px)", "blur(0px)", "blur(20px)"]);
+  // Text 1 (Dedication): Experts Who Truly Care About Your Success. — now leads from scroll start.
+  const t2Opacity = useTransform(smoothProgress, [0, 0.4, 0.5], [1, 1, 0]);
+  const t2Y = useTransform(smoothProgress, [0, 0.4, 0.5], [0, 0, -80]);
+  const t2Filter = useTransform(smoothProgress, [0, 0.4, 0.5], ["blur(0px)", "blur(0px)", "blur(20px)"]);
 
-  // Text 2: Experts Who Truly Care About Your Success.
-  const t2Opacity = useTransform(smoothProgress, [0.2, 0.35, 0.55, 0.65], [0, 1, 1, 0]);
-  const t2Y = useTransform(smoothProgress, [0.2, 0.35, 0.55, 0.65], [80, 0, 0, -80]);
-  const t2Filter = useTransform(smoothProgress, [0.2, 0.35, 0.55, 0.65], ["blur(20px)", "blur(0px)", "blur(0px)", "blur(20px)"]);
-
-  // Text 3: 10 Years of Proven Excellence.
-  const t3Opacity = useTransform(smoothProgress, [0.6, 0.7, 0.9, 1], [0, 1, 1, 1]);
-  const t3Y = useTransform(smoothProgress, [0.6, 0.7, 0.9, 1], [80, 0, 0, 0]);
-  const t3Filter = useTransform(smoothProgress, [0.6, 0.7, 0.9, 1], ["blur(20px)", "blur(0px)", "blur(0px)", "blur(0px)"]);
+  // Text 2 (Commitment): 10 Years of Proven Excellence.
+  const t3Opacity = useTransform(smoothProgress, [0.45, 0.6, 0.9, 1], [0, 1, 1, 1]);
+  const t3Y = useTransform(smoothProgress, [0.45, 0.6, 0.9, 1], [80, 0, 0, 0]);
+  const t3Filter = useTransform(smoothProgress, [0.45, 0.6, 0.9, 1], ["blur(20px)", "blur(0px)", "blur(0px)", "blur(0px)"]);
 
   const [displayCount, setDisplayCount] = useState(0);
-  const count = useTransform(smoothProgress, [0.6, 0.75], [0, 10]);
+  const count = useTransform(smoothProgress, [0.45, 0.62], [0, 10]);
   useMotionValueEvent(count, "change", (latest) => {
     setDisplayCount(Math.round(latest));
   });
@@ -96,9 +102,9 @@ export default function AboutSection({ onClose }: { onClose: () => void }) {
       animate={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" }}
       exit={{ clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)", transition: { duration: 0.4, ease: [0.76, 0, 0.24, 1] } }}
       transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
-      className="fixed inset-0 z-50 bg-[#05080C] overflow-y-auto overflow-x-hidden"
+      className="fixed inset-0 z-[210] bg-[#05080C] overflow-y-auto overflow-x-hidden"
     >
-      <div ref={targetRef} className="h-[400vh] w-full relative">
+      <div ref={targetRef} className="h-[300vh] w-full relative">
         <div className="sticky top-0 h-[100svh] w-full overflow-hidden flex items-center justify-center bg-black">
           
           <motion.div 
@@ -126,28 +132,10 @@ export default function AboutSection({ onClose }: { onClose: () => void }) {
                 transition={{ delay: 1.2, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                 className="absolute flex items-center justify-center w-full max-w-5xl px-4"
               >
-                <motion.div 
-                  style={{ opacity: t1Opacity, y: t1Y, filter: t1Filter }} 
+                <motion.div
+                  style={{ opacity: t2Opacity, y: t2Y, filter: t2Filter }}
                   className="relative px-8 py-12 md:px-20 md:py-16 rounded-[2.5rem] bg-zinc-950/20 border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.5),0_0_30px_rgba(255,255,255,0.03)_inset] backdrop-blur-[20px]"
                 >
-                  <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-50 pointer-events-none" />
-                  <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent mx-12 opacity-50" />
-                  
-                  <span className="inline-block px-5 py-2 rounded-full border border-white/10 bg-white/5 text-white/70 text-[10px] tracking-[0.3em] uppercase font-bold mb-6 shadow-[0_0_30px_rgba(255,255,255,0.05)_inset]">
-                    Intelligence
-                  </span>
-                  <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-[4.5rem] font-sans font-medium tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-white/90 to-white/20 leading-[1.1] relative z-10">
-                    We Work Smarter <br className="hidden sm:block" />
-                    <em className="font-serif italic font-light text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-blue-100 to-white/40 block mt-2 pb-2">with AI Technology.</em>
-                  </h2>
-                </motion.div>
-              </motion.div>
-              
-              <motion.div 
-                style={{ opacity: t2Opacity, y: t2Y, filter: t2Filter }} 
-                className="absolute flex items-center justify-center w-full max-w-5xl px-4"
-              >
-                <div className="relative px-8 py-12 md:px-20 md:py-16 rounded-[2.5rem] bg-zinc-950/20 border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.5),0_0_30px_rgba(255,255,255,0.03)_inset] backdrop-blur-[20px]">
                   <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-50 pointer-events-none" />
                   <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent mx-12 opacity-50" />
 
@@ -158,11 +146,11 @@ export default function AboutSection({ onClose }: { onClose: () => void }) {
                     Experts Who Truly <br className="hidden sm:block" />
                     <em className="font-serif italic font-light text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-blue-100 to-white/40 block mt-2 pb-2">Care About Your Success.</em>
                   </h2>
-                </div>
+                </motion.div>
               </motion.div>
 
-              <motion.div 
-                style={{ opacity: t3Opacity, y: t3Y, filter: t3Filter }} 
+              <motion.div
+                style={{ opacity: t3Opacity, y: t3Y, filter: t3Filter }}
                 className="absolute flex items-center justify-center w-full max-w-5xl px-4"
               >
                 <div className="relative px-8 py-12 md:px-20 md:py-16 rounded-[2.5rem] bg-zinc-950/20 border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.5),0_0_30px_rgba(255,255,255,0.03)_inset] backdrop-blur-[20px]">
@@ -226,11 +214,13 @@ export default function AboutSection({ onClose }: { onClose: () => void }) {
       </div>
       
       {/* Continuing the journey after the pinned section */}
-      <AIFileCheckingSection />
       <HowItWorksSection />
       <HowMigrateProperlyWorksSection />
-      <TestimonialSection />
+      <div id="success-stories">
+        <TestimonialSection />
+      </div>
       <ContactSection />
+      <CountriesMarquee />
       <FooterSection />
       
       {/* We can add a bottom spacer or close-triggering area if needed, but the scroll event handles upward scroll */}
