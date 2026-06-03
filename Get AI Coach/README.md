@@ -13,7 +13,7 @@ step — open `index.html` in a browser and it runs.
 |------|---------|
 | `index.html` | The sales/pricing page. Hero, problem/solution, the three services, "how it works", countries, testimonials, **pricing packages**, guarantee, FAQ, and final CTA. Bilingual (Bangla default, English toggle). |
 | `payment.html` | The checkout page. Collects the buyer's name, WhatsApp/phone number, and a manual payment **Transaction ID (TrxID)**. Supports bKash, Nagad, and Rocket. |
-| `success.html` | Order confirmation shown after a successful "payment". Reads the order from `sessionStorage`, tells the buyer their payment is **auto-verifying**, and points them to **log in to MigrateProperly** (primary CTA) and **join the WhatsApp student community**. |
+| `success.html` | Confirmation page the buyer is redirected to **once payment is confirmed**. Reads the order from `sessionStorage`, shows the payment as **confirmed**, and points them to **log in to MigrateProperly** (primary CTA) and **join the WhatsApp student community**. |
 | `images/logo.png` | The MigrateProperly logo (the only locally-hosted asset). |
 
 > The hero/section background images are loaded from remote CloudFront URLs that
@@ -47,8 +47,8 @@ index.html  ──(pick a package)──►  payment.html  ──(submit TrxID)�
 3. **Confirmation** — `success.html`
    On submit, the order is saved to the browser's `sessionStorage` under the key
    `mp_order` (name, phone, txid, package, method) and the user is redirected to
-   the success page, which:
-   - shows the order summary with a **"স্বয়ংক্রিয়ভাবে যাচাই হচ্ছে" (auto-verifying)** status — no manual 24h wait;
+   the success page **only after the payment is confirmed**, which:
+   - shows the order summary with a **"নিশ্চিত হয়েছে ✓" (confirmed)** status;
    - presents **"Login to MigrateProperly"** as the primary next action. The
      button links to the login page (`https://www.migrateproperly.com/login` by
      default — update the `href` if login lives elsewhere) and **pre-fills the
@@ -56,9 +56,9 @@ index.html  ──(pick a package)──►  payment.html  ──(submit TrxID)�
    - invites the buyer to **join the WhatsApp student community** to connect with
      fellow students (the group is framed as community, not paid support).
 
-   > The actual payment auto-verification + account provisioning is backend work
-   > (see below). The page communicates the auto-verify experience; the system
-   > behind it still needs to be wired in.
+   > Confirming the payment and provisioning the account is backend work (see
+   > below). The page assumes the user only lands here once payment is confirmed;
+   > the redirect/verification logic behind it still needs to be wired in.
 
 ---
 

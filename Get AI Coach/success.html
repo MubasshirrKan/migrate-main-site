@@ -46,10 +46,6 @@ body{font-family:'Poppins',sans-serif;background:var(--dark);min-height:100vh;di
 .os-value{font-family:'Hind Siliguri',sans-serif;font-size:14px;font-weight:700;color:#fff;text-align:right;word-break:break-all;}
 .os-value.green{color:#4ADE80;}
 .os-divider{height:1px;background:rgba(255,255,255,.08);margin:10px 0;}
-/* auto-verify pill */
-.verify-pill{display:inline-flex;align-items:center;gap:7px;justify-content:flex-end;}
-.verify-spin{width:13px;height:13px;border:2px solid rgba(74,222,128,.3);border-top-color:#4ADE80;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0;}
-@keyframes spin{to{transform:rotate(360deg)}}
 
 /* LOGIN CARD (primary next action) */
 .login-card{background:linear-gradient(135deg,rgba(79,168,255,.16),rgba(24,119,242,.08));border:1px solid rgba(79,168,255,.35);border-radius:16px;padding:22px;margin-bottom:20px;text-align:left;}
@@ -115,7 +111,7 @@ body{font-family:'Poppins',sans-serif;background:var(--dark);min-height:100vh;di
 
   <div class="success-tag">Payment Successful</div>
   <h1 class="success-title" id="success-name">আপনার পেমেন্ট নিশ্চিত হয়েছে!</h1>
-  <p class="success-sub">অভিনন্দন! পেমেন্টটা আমরা অটোমেটিক যাচাই করে নিচ্ছি। এর মধ্যেই MigrateProperly-তে লগইন করে আপনার AI Coach শুরু করে দিন, আর আমাদের স্টুডেন্ট কমিউনিটিতে যোগ দিন।</p>
+  <p class="success-sub">আপনার পেমেন্ট সফলভাবে নিশ্চিত হয়েছে। MigrateProperly-তে লগইন করে এখনই আপনার AI Coach ও ব্যক্তিগত প্রস্তুতি ড্যাশবোর্ড ব্যবহার শুরু করুন, এবং আমাদের স্টুডেন্ট কমিউনিটিতে যুক্ত হন।</p>
 
   <!-- Order Summary -->
   <div class="order-summary">
@@ -139,7 +135,7 @@ body{font-family:'Poppins',sans-serif;background:var(--dark);min-height:100vh;di
     <div class="os-divider"></div>
     <div class="os-row">
       <span class="os-label">পেমেন্ট স্ট্যাটাস</span>
-      <span class="os-value green verify-pill"><span class="verify-spin"></span>স্বয়ংক্রিয়ভাবে যাচাই হচ্ছে</span>
+      <span class="os-value green">নিশ্চিত হয়েছে ✓</span>
     </div>
   </div>
 
@@ -151,10 +147,10 @@ body{font-family:'Poppins',sans-serif;background:var(--dark);min-height:100vh;di
       </div>
       <div>
         <div class="login-card-title">MigrateProperly-তে লগইন করুন</div>
-        <div class="login-card-sub">আপনার AI Coach ও ড্যাশবোর্ড অ্যাক্সেস করুন</div>
+        <div class="login-card-sub">আপনার AI Coach ও প্রস্তুতি ড্যাশবোর্ড ব্যবহার করুন</div>
       </div>
     </div>
-    <p class="login-desc">আপনার কেনা প্যাকেজ অ্যাক্টিভেট করতে আপনার WhatsApp নম্বর দিয়ে লগইন করুন। পেমেন্ট যাচাই হয়ে গেলে AI Coach, ডকুমেন্ট রিভিউ ও আপনার সম্পূর্ণ প্রস্তুতি ড্যাশবোর্ড আনলক হয়ে যাবে।</p>
+    <p class="login-desc">আপনার ক্রয়কৃত প্যাকেজটি সক্রিয় করতে WhatsApp নম্বর দিয়ে লগইন করুন। লগইন সম্পন্ন হওয়ার সঙ্গে সঙ্গে AI Coach, ডকুমেন্ট রিভিউ এবং আপনার সম্পূর্ণ প্রস্তুতি ড্যাশবোর্ড ব্যবহারের সুযোগ চালু হয়ে যাবে।</p>
     <!-- TODO: if the login page is on a different domain, update this href -->
     <a id="login-btn" href="https://www.migrateproperly.com/login" class="login-btn">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z"/></svg>
@@ -169,14 +165,14 @@ body{font-family:'Poppins',sans-serif;background:var(--dark);min-height:100vh;di
         <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       </div>
       <div>
-        <div class="wa-card-title">স্টুডেন্ট কমিউনিটিতে যোগ দিন</div>
-        <div class="wa-card-sub">সহযাত্রী শিক্ষার্থীদের সাথে কানেক্ট করুন</div>
+        <div class="wa-card-title">স্টুডেন্ট কমিউনিটিতে যুক্ত হন</div>
+        <div class="wa-card-sub">একই লক্ষ্যের শিক্ষার্থীদের সঙ্গে যুক্ত থাকুন</div>
       </div>
     </div>
-    <p class="wa-desc">আমাদের WhatsApp কমিউনিটি গ্রুপে যোগ দিন — যেখানে হাজারো শিক্ষার্থী একে অপরের সাথে অভিজ্ঞতা শেয়ার করছে, প্রশ্ন করছে, এবং একসাথে বিদেশে পড়ার স্বপ্নের পথে এগিয়ে যাচ্ছে।</p>
+    <p class="wa-desc">আমাদের WhatsApp স্টুডেন্ট কমিউনিটিতে যুক্ত হন — যেখানে অসংখ্য শিক্ষার্থী তাঁদের অভিজ্ঞতা বিনিময় করছেন, একে অপরের প্রশ্নের উত্তর দিচ্ছেন এবং বিদেশে উচ্চশিক্ষার পথে একসঙ্গে এগিয়ে চলেছেন।</p>
     <a id="wa-group-btn" href="https://chat.whatsapp.com/XXXXXXXXXXXXXXXXXXXXXXXXX" class="wa-join-btn" target="_blank">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      কমিউনিটিতে যোগ দিন
+      কমিউনিটিতে যুক্ত হন
     </a>
   </div>
 
@@ -186,15 +182,15 @@ body{font-family:'Poppins',sans-serif;background:var(--dark);min-height:100vh;di
     <div class="ns-list">
       <div class="ns-item">
         <div class="ns-num">১</div>
-        <div class="ns-text bn">পেমেন্টটা আমরাই অটোমেটিক যাচাই করে নিচ্ছি — আপনাকে আলাদা করে কিছু করতে হবে না, একটু পরেই কনফার্ম হয়ে যাবে।</div>
+        <div class="ns-text bn">আপনার পেমেন্ট সফলভাবে গৃহীত ও নিশ্চিত হয়েছে — অতিরিক্ত কোনো পদক্ষেপ নেওয়ার প্রয়োজন নেই।</div>
       </div>
       <div class="ns-item">
         <div class="ns-num">২</div>
-        <div class="ns-text bn">এবার আপনার WhatsApp নম্বরটা দিয়ে MigrateProperly-তে লগইন করুন — সঙ্গে সঙ্গে AI Coach আর আপনার ড্যাশবোর্ড খুলে যাবে।</div>
+        <div class="ns-text bn">আপনার WhatsApp নম্বর দিয়ে MigrateProperly-তে লগইন করুন — আপনার AI Coach ও ব্যক্তিগত ড্যাশবোর্ড সক্রিয় হয়ে যাবে।</div>
       </div>
       <div class="ns-item">
         <div class="ns-num">৩</div>
-        <div class="ns-text bn">আমাদের স্টুডেন্ট কমিউনিটিতে চলে আসুন — একই স্বপ্ন নিয়ে এগিয়ে চলা আরও অনেকের সঙ্গে মিশুন, নিজের অভিজ্ঞতা শেয়ার করুন।</div>
+        <div class="ns-text bn">আমাদের স্টুডেন্ট কমিউনিটিতে যুক্ত হন — অভিজ্ঞতা বিনিময় করুন এবং একই লক্ষ্যে এগিয়ে চলা শিক্ষার্থীদের সঙ্গে সংযুক্ত থাকুন।</div>
       </div>
     </div>
   </div>
