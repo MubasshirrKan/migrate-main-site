@@ -46,9 +46,23 @@ body{font-family:'Poppins',sans-serif;background:var(--dark);min-height:100vh;di
 .os-value{font-family:'Hind Siliguri',sans-serif;font-size:14px;font-weight:700;color:#fff;text-align:right;word-break:break-all;}
 .os-value.green{color:#4ADE80;}
 .os-divider{height:1px;background:rgba(255,255,255,.08);margin:10px 0;}
+/* auto-verify pill */
+.verify-pill{display:inline-flex;align-items:center;gap:7px;justify-content:flex-end;}
+.verify-spin{width:13px;height:13px;border:2px solid rgba(74,222,128,.3);border-top-color:#4ADE80;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* WHATSAPP GROUP CARD */
-.wa-card{background:linear-gradient(135deg,rgba(37,211,102,.12),rgba(37,211,102,.06));border:1px solid rgba(37,211,102,.25);border-radius:16px;padding:22px;margin-bottom:20px;}
+/* LOGIN CARD (primary next action) */
+.login-card{background:linear-gradient(135deg,rgba(79,168,255,.16),rgba(24,119,242,.08));border:1px solid rgba(79,168,255,.35);border-radius:16px;padding:22px;margin-bottom:20px;text-align:left;}
+.login-card-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.login-icon{width:48px;height:48px;background:var(--grad);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 6px 20px rgba(24,119,242,.4);}
+.login-card-title{font-family:'Hind Siliguri',sans-serif;font-size:18px;font-weight:700;color:#fff;}
+.login-card-sub{font-family:'Hind Siliguri',sans-serif;font-size:13px;color:rgba(255,255,255,.6);}
+.login-desc{font-family:'Hind Siliguri',sans-serif;font-size:14px;color:rgba(255,255,255,.72);line-height:1.6;margin-bottom:16px;}
+.login-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--grad);color:#fff;border:none;padding:14px 28px;border-radius:50px;font-family:'Hind Siliguri',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none;box-shadow:0 6px 20px rgba(24,119,242,.4);width:100%;}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(24,119,242,.55);}
+
+/* WHATSAPP COMMUNITY CARD */
+.wa-card{background:linear-gradient(135deg,rgba(37,211,102,.12),rgba(37,211,102,.06));border:1px solid rgba(37,211,102,.25);border-radius:16px;padding:22px;margin-bottom:20px;text-align:left;}
 .wa-card-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
 .wa-icon{width:48px;height:48px;background:#25D366;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 6px 20px rgba(37,211,102,.35);}
 .wa-card-title{font-family:'Hind Siliguri',sans-serif;font-size:18px;font-weight:700;color:#fff;}
@@ -56,14 +70,6 @@ body{font-family:'Poppins',sans-serif;background:var(--dark);min-height:100vh;di
 .wa-desc{font-family:'Hind Siliguri',sans-serif;font-size:14px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:16px;}
 .wa-join-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:#25D366;color:#fff;border:none;padding:14px 28px;border-radius:50px;font-family:'Hind Siliguri',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,.4);width:100%;}
 .wa-join-btn:hover{background:#1DA851;transform:translateY(-2px);box-shadow:0 10px 28px rgba(37,211,102,.5);}
-
-/* PDF DOWNLOAD */
-.pdf-card{background:rgba(24,119,242,.08);border:1px solid rgba(24,119,242,.2);border-radius:16px;padding:18px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
-.pdf-icon{width:44px;height:44px;background:var(--grad);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.pdf-text{flex:1;min-width:120px;}
-.pdf-title{font-family:'Hind Siliguri',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;}
-.pdf-sub{font-family:'Hind Siliguri',sans-serif;font-size:13px;color:rgba(255,255,255,.55);}
-.pdf-btn{background:var(--grad);color:#fff;border:none;padding:10px 18px;border-radius:50px;font-family:'Hind Siliguri',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:6px;}
 
 /* NEXT STEPS */
 .next-steps{text-align:left;margin-bottom:24px;}
@@ -78,11 +84,9 @@ body{font-family:'Poppins',sans-serif;background:var(--dark);min-height:100vh;di
   .success-card{padding:28px 18px;border-radius:20px;}
   .success-title{font-size:22px;}
   .success-sub{font-size:14px;}
-  .wa-card{padding:16px;}
-  .wa-card-title{font-size:16px;}
-  .wa-join-btn{font-size:14px;padding:12px 18px;}
-  .pdf-card{flex-direction:column;align-items:flex-start;}
-  .pdf-btn{width:100%;justify-content:center;}
+  .wa-card,.login-card{padding:16px;}
+  .wa-card-title,.login-card-title{font-size:16px;}
+  .wa-join-btn,.login-btn{font-size:14px;padding:12px 18px;}
   .order-summary{padding:16px;}
   .os-label{font-size:13px;}
   .os-value{font-size:13px;}
@@ -111,7 +115,7 @@ body{font-family:'Poppins',sans-serif;background:var(--dark);min-height:100vh;di
 
   <div class="success-tag">Payment Successful</div>
   <h1 class="success-title" id="success-name">আপনার পেমেন্ট নিশ্চিত হয়েছে!</h1>
-  <p class="success-sub">অভিনন্দন! আপনার অর্ডার সফলভাবে নিবন্ধিত হয়েছে। নিচের WhatsApp গ্রুপে যোগ দিন।</p>
+  <p class="success-sub">অভিনন্দন! আপনার পেমেন্ট স্বয়ংক্রিয়ভাবে যাচাই করা হচ্ছে। এখন MigrateProperly-তে লগইন করে আপনার AI Coach শুরু করুন এবং স্টুডেন্ট কমিউনিটিতে যোগ দিন।</p>
 
   <!-- Order Summary -->
   <div class="order-summary">
@@ -134,45 +138,45 @@ body{font-family:'Poppins',sans-serif;background:var(--dark);min-height:100vh;di
     </div>
     <div class="os-divider"></div>
     <div class="os-row">
-      <span class="os-label">PDF Guide</span>
-      <span class="os-value green">বিনামূল্যে অন্তর্ভুক্ত ✓</span>
-    </div>
-    <div class="os-row">
-      <span class="os-label">স্ট্যাটাস</span>
-      <span class="os-value green">যাচাই হচ্ছে (24 ঘণ্টার মধ্যে)</span>
+      <span class="os-label">পেমেন্ট স্ট্যাটাস</span>
+      <span class="os-value green verify-pill"><span class="verify-spin"></span>স্বয়ংক্রিয়ভাবে যাচাই হচ্ছে</span>
     </div>
   </div>
 
-  <!-- WhatsApp Group -->
+  <!-- Login to MigrateProperly (primary next action) -->
+  <div class="login-card">
+    <div class="login-card-header">
+      <div class="login-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z"/></svg>
+      </div>
+      <div>
+        <div class="login-card-title">MigrateProperly-তে লগইন করুন</div>
+        <div class="login-card-sub">আপনার AI Coach ও ড্যাশবোর্ড অ্যাক্সেস করুন</div>
+      </div>
+    </div>
+    <p class="login-desc">আপনার কেনা প্যাকেজ অ্যাক্টিভেট করতে আপনার WhatsApp নম্বর দিয়ে লগইন করুন। পেমেন্ট যাচাই হয়ে গেলে AI Coach, ডকুমেন্ট রিভিউ ও আপনার সম্পূর্ণ প্রস্তুতি ড্যাশবোর্ড আনলক হয়ে যাবে।</p>
+    <!-- TODO: if the login page is on a different domain, update this href -->
+    <a id="login-btn" href="https://www.migrateproperly.com/login" class="login-btn">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z"/></svg>
+      MigrateProperly-তে লগইন করুন
+    </a>
+  </div>
+
+  <!-- WhatsApp Student Community -->
   <div class="wa-card">
     <div class="wa-card-header">
       <div class="wa-icon">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       </div>
       <div>
-        <div class="wa-card-title">WhatsApp Support Group-এ যোগ দিন</div>
-        <div class="wa-card-sub">Private group — শুধুমাত্র paid members</div>
+        <div class="wa-card-title">স্টুডেন্ট কমিউনিটিতে যোগ দিন</div>
+        <div class="wa-card-sub">সহযাত্রী শিক্ষার্থীদের সাথে কানেক্ট করুন</div>
       </div>
     </div>
-    <p class="wa-desc">এই exclusive WhatsApp group-এ আমাদের team সরাসরি আপনাকে সাহায্য করবে। Document review, AI Coach queries, এবং সব ধরনের সাপোর্ট এখানে পাবেন।</p>
+    <p class="wa-desc">আমাদের WhatsApp কমিউনিটি গ্রুপে যোগ দিন — যেখানে হাজারো শিক্ষার্থী একে অপরের সাথে অভিজ্ঞতা শেয়ার করছে, প্রশ্ন করছে, এবং একসাথে বিদেশে পড়ার স্বপ্নের পথে এগিয়ে যাচ্ছে।</p>
     <a id="wa-group-btn" href="https://chat.whatsapp.com/XXXXXXXXXXXXXXXXXXXXXXXXX" class="wa-join-btn" target="_blank">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      WhatsApp Support Group-এ যোগ দিন
-    </a>
-  </div>
-
-  <!-- PDF Download -->
-  <div class="pdf-card">
-    <div class="pdf-icon">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-    </div>
-    <div class="pdf-text">
-      <div class="pdf-title">Study Abroad PDF Guide</div>
-      <div class="pdf-sub">৫০+ দেশের তথ্য — আপনার বিনামূল্যে বোনাস</div>
-    </div>
-    <a href="#" class="pdf-btn">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-      ডাউনলোড
+      কমিউনিটিতে যোগ দিন
     </a>
   </div>
 
@@ -182,15 +186,15 @@ body{font-family:'Poppins',sans-serif;background:var(--dark);min-height:100vh;di
     <div class="ns-list">
       <div class="ns-item">
         <div class="ns-num">১</div>
-        <div class="ns-text bn">উপরের WhatsApp group-এ যোগ দিন — আমাদের team ২৪ ঘণ্টার মধ্যে আপনার payment verify করবে</div>
+        <div class="ns-text bn">আপনার পেমেন্ট স্বয়ংক্রিয়ভাবে যাচাই করা হচ্ছে — কোনো ম্যানুয়াল অপেক্ষা নেই, কয়েক মুহূর্তেই সম্পন্ন হবে</div>
       </div>
       <div class="ns-item">
         <div class="ns-num">২</div>
-        <div class="ns-text bn">PDF Guide ডাউনলোড করুন এবং আপনার গন্তব্য দেশ সম্পর্কে জানুন</div>
+        <div class="ns-text bn">MigrateProperly-তে আপনার WhatsApp নম্বর দিয়ে লগইন করুন — AI Coach ও ড্যাশবোর্ড আনলক হবে</div>
       </div>
       <div class="ns-item">
         <div class="ns-num">৩</div>
-        <div class="ns-text bn">Group-এ আপনার নাম ও package mention করুন — AI Coach/Review শুরু হবে</div>
+        <div class="ns-text bn">স্টুডেন্ট কমিউনিটিতে যোগ দিন এবং সহযাত্রী শিক্ষার্থীদের সাথে আপনার যাত্রা শেয়ার করুন</div>
       </div>
     </div>
   </div>
@@ -212,6 +216,15 @@ if(order.name){
   document.getElementById('out-pkg').textContent = order.pkgName || ('৳' + order.pkg);
   document.getElementById('out-method').textContent = ({bkash:'bKash',nagad:'Nagad',rocket:'Rocket',card:'Card'}[order.method] || order.method);
   document.getElementById('out-txid').textContent = order.txid || '—';
+}
+
+// Pre-fill the login link with the buyer's WhatsApp number so login is one tap.
+if(order.phone){
+  var loginBtn = document.getElementById('login-btn');
+  if(loginBtn){
+    var base = loginBtn.getAttribute('href');
+    loginBtn.setAttribute('href', base + '?phone=' + encodeURIComponent(order.phone));
+  }
 }
 
 // Confetti
