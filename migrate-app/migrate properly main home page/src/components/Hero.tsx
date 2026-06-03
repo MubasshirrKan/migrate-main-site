@@ -42,6 +42,7 @@ export default function Hero() {
   const openStories = () =>
     window.dispatchEvent(new CustomEvent("mp:open-about", { detail: { scrollTo: "success-stories" } }));
   const openQuiz = () => navigateTo("/quiz");
+  const openLogin = () => navigateTo("/portal");
 
   // Shared nav items for desktop + mobile menus
   const navItems = [
@@ -280,13 +281,21 @@ export default function Hero() {
             ))}
           </nav>
 
-          {/* Desktop Play Quiz */}
-          <button
-            onClick={openQuiz}
-            className="hidden md:block px-6 py-3 rounded-full text-white font-sans font-semibold text-xs tracking-widest uppercase bg-gradient-to-b from-[#4F8EF7] to-[#1D4ED8] hover:from-[#5b97ff] hover:to-[#1E40AF] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] transition-all"
-          >
-            Play Quiz
-          </button>
+          {/* Desktop Login + Play Quiz */}
+          <div className="hidden md:flex items-center gap-3">
+            <button
+              onClick={openLogin}
+              className="px-6 py-3 rounded-full text-white/90 hover:text-white font-sans font-semibold text-xs tracking-widest uppercase border border-white/25 bg-white/5 backdrop-blur-md hover:bg-white/10 hover:border-white/40 transition-all"
+            >
+              Login
+            </button>
+            <button
+              onClick={openQuiz}
+              className="px-6 py-3 rounded-full text-white font-sans font-semibold text-xs tracking-widest uppercase bg-gradient-to-b from-[#4F8EF7] to-[#1D4ED8] hover:from-[#5b97ff] hover:to-[#1E40AF] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] transition-all"
+            >
+              Play Quiz
+            </button>
+          </div>
 
           {/* Mobile hamburger */}
           <button
@@ -331,8 +340,14 @@ export default function Hero() {
                 </button>
               ))}
               <button
+                onClick={() => { setMenuOpen(false); openLogin(); }}
+                className="mt-2 px-4 py-3 rounded-xl text-white/90 font-sans font-semibold text-sm tracking-widest uppercase border border-white/20 bg-white/5 hover:bg-white/10 transition-all"
+              >
+                Login
+              </button>
+              <button
                 onClick={() => { setMenuOpen(false); openQuiz(); }}
-                className="mt-2 px-4 py-3 rounded-xl text-white font-sans font-semibold text-sm tracking-widest uppercase bg-gradient-to-b from-[#4F8EF7] to-[#1D4ED8] hover:from-[#5b97ff] hover:to-[#1E40AF] transition-all"
+                className="px-4 py-3 rounded-xl text-white font-sans font-semibold text-sm tracking-widest uppercase bg-gradient-to-b from-[#4F8EF7] to-[#1D4ED8] hover:from-[#5b97ff] hover:to-[#1E40AF] transition-all"
               >
                 Play Quiz
               </button>
