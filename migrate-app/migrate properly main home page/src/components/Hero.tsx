@@ -44,11 +44,18 @@ export default function Hero() {
   const openQuiz = () => navigateTo("/quiz");
   const openLogin = () => navigateTo("/login");
 
+  // TODO: point this at the AI Coach sales/pricing page once it has a URL.
+  const openAICoach = () => {
+    // Placeholder — replace with the real destination, e.g.
+    // window.location.href = "https://..."; or navigateTo("/get-ai-coach");
+  };
+
   // Shared nav items for desktop + mobile menus
   const navItems = [
     { label: "About Us", action: () => navigateTo("/about") },
     { label: "Destinations", action: () => navigateTo("/destinations") },
     { label: "Success Stories", action: openStories },
+    { label: "Get AI Coach", action: openAICoach },
   ];
 
   const { scrollYProgress } = useScroll({
