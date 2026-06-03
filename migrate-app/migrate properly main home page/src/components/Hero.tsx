@@ -42,7 +42,7 @@ export default function Hero() {
   const openStories = () =>
     window.dispatchEvent(new CustomEvent("mp:open-about", { detail: { scrollTo: "success-stories" } }));
   const openQuiz = () => navigateTo("/quiz");
-  const openLogin = () => navigateTo("/portal");
+  const openLogin = () => navigateTo("/login");
 
   // Shared nav items for desktop + mobile menus
   const navItems = [

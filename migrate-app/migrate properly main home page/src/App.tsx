@@ -11,6 +11,7 @@ const CareersPage = lazy(() => import("./components/CareersPage"));
 const FounderPage = lazy(() => import("./components/FounderPage"));
 const DestinationsPage = lazy(() => import("./components/DestinationsPage"));
 const StudentPortal = lazy(() => import("./components/StudentPortal"));
+const AuthPage = lazy(() => import("./components/AuthPage"));
 const PrivacyPolicyPage = lazy(() => import("./components/LegalPage").then(m => ({ default: m.PrivacyPolicyPage })));
 const TermsPage = lazy(() => import("./components/LegalPage").then(m => ({ default: m.TermsPage })));
 
@@ -64,6 +65,14 @@ export default function App() {
 
   if (currentPath === "/destinations") {
     return page(<DestinationsPage />);
+  }
+
+  if (currentPath === "/login") {
+    return page(<AuthPage initialMode="login" />);
+  }
+
+  if (currentPath === "/signup") {
+    return page(<AuthPage initialMode="signup" />);
   }
 
   if (currentPath === "/portal") {
